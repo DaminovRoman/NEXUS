@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d0e10">
+<title>NEXUS — умная механическая клавиатура</title>
+<meta name="description" content="NEXUS — механическая клавиатура со встроенным ИИ: горячая замена свитчей, алюминиевый корпус и отдельная клавиша для команд ИИ. Вымышленная концепция продукта.">
+<meta name="robots" content="index, follow">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="NEXUS — умная механическая клавиатура">
+<meta property="og:description" content="Механическая клавиатура со встроенным ИИ для вашей работы. Вымышленная концепция продукта.">
+<meta property="og:image" content="img/1.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="Компактная механическая клавиатура NEXUS в графитовом алюминиевом корпусе с одной фиолетовой клавишей ИИ">
+<meta property="og:image:width" content="1672">
+<meta property="og:image:height" content="940">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%230d0e10%22/><rect x=%226%22 y=%226%22 width=%2288%22 height=%2288%22 rx=%2220%22 fill=%22none%22 stroke=%22%23e4e6e9%22 stroke-width=%226%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 rx=%2211%22 fill=%22%239b7bff%22/></svg>">
+
+<!-- Прелоадер: включаем до первой отрисовки, чтобы не мигала страница.
+     Страховка: если основной скрипт не загрузился, через 10 с всё снимается само. -->
+<script>
+  (function (d) {
+    var c = d.documentElement.classList;
+    c.add("pl-show", "pl-lock");
+    setTimeout(function () { c.remove("pl-show", "pl-lock"); }, 10000);
+  })(document);
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+
+<link rel="stylesheet" href="KeyboardAI.css">
+<noscript><style>.keyboard-wrap, .hero-hint, .features-board { display: none; } .features-layout { grid-template-columns: 1fr; }</style></noscript>
+</head>
+<body>
+
+<!-- ============ ПРЕЛОАДЕР ============
+     Клавиша ИИ «включается» по мере загрузки, кольцо вокруг неё — это
+     контур логотипа и одновременно индикатор прогресса. В конце клавиша
+     нажимается, шторка уходит вверх, и по клавиатуре в hero бежит волна света. -->
+<div class="preloader" id="preloader" role="status">
+  <span class="visually-hidden">Загрузка страницы</span>
+
+  <div class="pl-stage" aria-hidden="true">
+    <div class="pl-mark">
+      <div class="pl-wave"></div>
+
+      <svg class="pl-ring" viewBox="0 0 24 24" focusable="false">
+        <path class="pl-ring-track" pathLength="100" d="M12 1.5H16.5a6 6 0 0 1 6 6V16.5a6 6 0 0 1-6 6H7.5a6 6 0 0 1-6-6V7.5a6 6 0 0 1 6-6H12"/>
+        <path class="pl-ring-fill" pathLength="100" d="M12 1.5H16.5a6 6 0 0 1 6 6V16.5a6 6 0 0 1-6 6H7.5a6 6 0 0 1-6-6V7.5a6 6 0 0 1 6-6H12h.6"/>
+      </svg>
+
+      <div class="pl-key">
+        <span class="pl-glow"></span>
+        <span class="pl-well"></span>
+        <span class="pl-cap"><i class="pl-star"></i></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pl-foot" aria-hidden="true">
+    <span class="pl-brand">NEXUS</span>
+    <span class="pl-count"><b>0</b><i>%</i></span>
+  </div>
+
+  <div class="pl-seam" aria-hidden="true"></div>
+</div>
+
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner container">
+    <a href="#top" class="logo" aria-label="NEXUS — на главную"><svg class="logo-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7" y="7" width="10" height="10" rx="3" fill="#9b7bff"/></svg><span>NEXUS</span></a>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Основная навигация">
+      <span class="nav-thumb" aria-hidden="true"></span>
+      <a href="#product">Продукт</a>
+      <a href="#features">Функции</a>
+      <a href="#ai">ИИ</a>
+      <a href="#customize">Настройка</a>
+      <a href="#specs">Характеристики</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#customize" class="btn btn-ghost header-cta">Настроить</a>
+      <button type="button" class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <div class="mobile-nav" id="mobileNav">
+    <nav aria-label="Мобильная навигация">
+      <a href="#product">Продукт</a>
+      <a href="#features">Функции</a>
+      <a href="#ai">ИИ</a>
+      <a href="#customize">Настройка</a>
+      <a href="#specs">Характеристики</a>
+      <a href="#customize" class="btn btn-primary btn-lg">Настроить</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-light" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <h1 class="hero-title">Печатай.<br>Думай.<br>Создавай.</h1>
+        <p class="hero-sub">Точная механическая клавиатура со встроенным ИИ для вашей работы.</p>
+        <div class="hero-actions">
+          <a href="#product" class="btn btn-primary">Изучить NEXUS</a>
+          <a href="#ai" class="btn btn-ghost">Познакомиться с ИИ</a>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="keyboard-wrap kb-hero" role="group" aria-label="Клавиатура NEXUS">
+          <div class="kb-shadow" aria-hidden="true"></div>
+          <div class="kb-body kb-case-graphite">
+            <div class="kb-plate">
+              <div class="kb-rows" id="heroKbRows" data-layout="75" data-legends="full" data-caps="dark" data-interactive="true" data-boot="true"></div>
+            </div>
+            <div class="kb-badge" aria-hidden="true">NEXUS</div>
+          </div>
+        </div>
+
+        <div class="hero-hint">
+          <p>Нажимайте клавиши на своей клавиатуре — эта отвечает. Фиолетовая клавиша открывает чат с ИИ.</p>
+          <button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false">
+            <span class="sound-toggle-track" aria-hidden="true"></span>Звук нажатий
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT INTRO ============ -->
+  <section class="section product-intro" id="product">
+    <div class="container">
+      <div class="section-head">
+        <h2>Больше, чем клавиатура.</h2>
+        <p>NEXUS сочетает механическую точность, продуманный дизайн и интеллектуальное ПО в едином рабочем пространстве.</p>
+      </div>
+
+      <div class="intro-layout">
+        <div class="intro-visual">
+          <div class="keyboard-wrap kb-closeup">
+            <div class="kb-body kb-case-silver kb-angle">
+              <div class="kb-plate">
+                <div class="kb-rows" id="introKbRows" data-layout="75" data-legends="latin" data-caps="light" data-interactive="true" data-ai-tab="false"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="spec-chips" role="list">
+          <li><strong>84 клавиши</strong><span>Раскладка 75%: всё нужное, ничего лишнего</span></li>
+          <li><strong>Алюминиевый корпус</strong><span>Тяжёлый и жёсткий, без люфтов</span></li>
+          <li><strong>Горячая замена свитчей</strong><span>Меняются без пайки</span></li>
+          <li><strong>Беспроводная связь</strong><span>Низкая задержка, проводной режим по USB-C</span></li>
+          <li><strong>Отдельная клавиша ИИ</strong><span>Команды ИИ без переключения окон</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section features" id="features">
+    <div class="container">
+      <div class="section-head">
+        <h2>Продумано для вашей работы.</h2>
+        <p>Клавиатура подсвечивает клавиши, о которых идёт речь.</p>
+      </div>
+
+      <div class="features-layout">
+        <div class="features-board" aria-hidden="true">
+          <div class="keyboard-wrap kb-feature">
+            <div class="kb-body kb-case-graphite">
+              <div class="kb-plate">
+                <div class="kb-rows" id="featKbRows" data-layout="75" data-legends="latin" data-caps="dark"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-list">
+          <article class="feature-item" data-keys="KeyA,KeyS,KeyD,KeyF,KeyG,KeyH,KeyJ,KeyK,KeyL,Semicolon">
+            <h3>Механическая точность</h3>
+            <p>Отзывчивые механические свитчи для контролируемого набора текста.</p>
+          </article>
+          <article class="feature-item" data-keys="ControlLeft,ShiftLeft,KeyR">
+            <h3>Умные сочетания</h3>
+            <p>Создавайте шорткаты для повторяющихся действий и вызывайте их мгновенно.</p>
+            <p class="feature-keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd><span>Например, свой макрос на одно сочетание</span></p>
+          </article>
+          <article class="feature-item" data-keys="Insert">
+            <h3>Команды ИИ</h3>
+            <p>Запускайте инструменты ИИ прямо с клавиатуры, не прерывая задачу.</p>
+            <p class="feature-keys"><kbd class="kbd-ai">ИИ</kbd><span>Выделите текст и нажмите</span></p>
+          </article>
+          <article class="feature-item" data-keys="Fn,KeyB">
+            <h3>Беспроводное соединение</h3>
+            <p>Чистый стол и стабильная связь с низкой задержкой.</p>
+            <p class="feature-keys"><kbd>Fn</kbd>+<kbd>B</kbd><span>Быстрое подключение</span></p>
+          </article>
+          <article class="feature-item" data-keys="Fn,KeyW,KeyA,KeyS,KeyD">
+            <h3>Своя раскладка</h3>
+            <p>Настройте клавиши и слои под то, как вы работаете на самом деле.</p>
+            <p class="feature-keys"><kbd>Fn</kbd><span>Удерживайте: на клавишах включается второй слой</span></p>
+          </article>
+          <article class="feature-item" data-keys="Fn,Digit1,Digit2,Digit3">
+            <h3>Несколько устройств</h3>
+            <p>Переключайтесь между устройствами, не теряя ни секунды.</p>
+            <p class="feature-keys"><kbd>Fn</kbd>+<kbd>1</kbd>/<kbd>2</kbd>/<kbd>3</kbd></p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI WORKFLOW ============ -->
+  <section class="section workflow" id="ai">
+    <div class="container">
+      <div class="section-head">
+        <h2>Одна клавиша. Множество возможностей.</h2>
+        <p>Выберите задачу и посмотрите, что меняется после команды.</p>
+      </div>
+
+      <div class="workflow-tabs" role="tablist" aria-label="Категории сценариев">
+        <button type="button" class="workflow-tab is-active" role="tab" id="wfTab-write" aria-selected="true" aria-controls="workflowPanel" tabindex="0" data-category="write">Письмо</button>
+        <button type="button" class="workflow-tab" role="tab" id="wfTab-code" aria-selected="false" aria-controls="workflowPanel" tabindex="-1" data-category="code">Код</button>
+        <button type="button" class="workflow-tab" role="tab" id="wfTab-design" aria-selected="false" aria-controls="workflowPanel" tabindex="-1" data-category="design">Дизайн</button>
+        <button type="button" class="workflow-tab" role="tab" id="wfTab-research" aria-selected="false" aria-controls="workflowPanel" tabindex="-1" data-category="research">Исследование</button>
+        <button type="button" class="workflow-tab" role="tab" id="wfTab-create" aria-selected="false" aria-controls="workflowPanel" tabindex="-1" data-category="create">Создание</button>
+      </div>
+
+      <div class="workflow-stage">
+        <div class="workflow-display" id="workflowPanel" role="tabpanel" aria-labelledby="wfTab-write" tabindex="0">
+          <div class="workflow-cmd-row">
+            <span class="cmd-key" aria-hidden="true">ИИ</span>
+            <p class="workflow-cmd" id="workflowCmd">Переписать абзац</p>
+          </div>
+          <p class="workflow-desc" id="workflowDesc">Улучшим тон, ясность и структуру, сохранив ваш стиль.</p>
+
+          <div class="wf-compare">
+            <div class="wf-col wf-before">
+              <p class="wf-label">Было</p>
+              <p class="wf-text" id="wfFrom">Мы хотели бы вас проинформировать о том, что в связи с определёнными обстоятельствами встреча была перенесена на более позднее время.</p>
+            </div>
+            <div class="wf-col wf-after">
+              <p class="wf-label">Стало</p>
+              <p class="wf-text" id="wfTo">Встреча переносится на более позднее время.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CUSTOMIZATION ============ -->
+  <section class="section customize" id="customize">
+    <div class="container">
+      <div class="section-head">
+        <h2>Сделайте её своей.</h2>
+      </div>
+
+      <div class="customize-layout">
+        <div class="customize-visual">
+          <div class="keyboard-wrap kb-customize">
+            <div class="kb-body kb-case-graphite" id="customKbBody">
+              <div class="kb-plate">
+                <div class="kb-rows" id="customKbRows" data-layout="75" data-legends="latin" data-caps="dark" data-interactive="true" data-ai-tab="false"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="customize-options">
+          <fieldset class="option-group">
+            <legend>Корпус</legend>
+            <div class="option-row" role="group" aria-label="Цвет корпуса">
+              <button type="button" class="option-swatch" data-group="case" data-value="graphite" aria-pressed="true">
+                <span class="swatch swatch-graphite" aria-hidden="true"></span>Графит
+              </button>
+              <button type="button" class="option-swatch" data-group="case" data-value="silver" aria-pressed="false">
+                <span class="swatch swatch-silver" aria-hidden="true"></span>Серебро
+              </button>
+              <button type="button" class="option-swatch" data-group="case" data-value="black" aria-pressed="false">
+                <span class="swatch swatch-black" aria-hidden="true"></span>Чёрный
+              </button>
+            </div>
+          </fieldset>
+
+          <fieldset class="option-group">
+            <legend>Свитч</legend>
+            <div class="option-row" role="group" aria-label="Тип свитча">
+              <button type="button" class="option-pill" data-group="switch" data-value="linear" aria-pressed="true">Линейный</button>
+              <button type="button" class="option-pill" data-group="switch" data-value="tactile" aria-pressed="false">Тактильный</button>
+              <button type="button" class="option-pill" data-group="switch" data-value="clicky" aria-pressed="false">Кликовый</button>
+            </div>
+            <p class="switch-note" id="switchNote">Плавный ход без щелчка и бугорка. Тихий и быстрый.</p>
+            <button type="button" class="preview-btn" id="switchPreview">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true"><path d="M3 1.5v11l9-5.5z"/></svg>
+              Послушать свитч
+            </button>
+          </fieldset>
+
+          <fieldset class="option-group">
+            <legend>Колпачки</legend>
+            <div class="option-row" role="group" aria-label="Цвет колпачков">
+              <button type="button" class="option-pill" data-group="keycaps" data-value="dark" aria-pressed="true">Тёмные</button>
+              <button type="button" class="option-pill" data-group="keycaps" data-value="light" aria-pressed="false">Светлые</button>
+              <button type="button" class="option-pill" data-group="keycaps" data-value="duo" aria-pressed="false">Двухцветные</button>
+            </div>
+          </fieldset>
+
+          <p class="configure-summary" id="configSummary" aria-live="polite">Графитовый корпус, линейные свитчи, тёмные колпачки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT DETAILS ============ -->
+  <section class="section details">
+    <div class="container">
+      <div class="section-head">
+        <h2>Каждая деталь продумана.</h2>
+      </div>
+
+      <div class="details-grid">
+
+<figure class="detail-card detail-card--ai span-7">
+          <div class="detail-visual detail-visual--ai">
+            <img src="img/2.jpg" alt="Фиолетовая полупрозрачная клавиша ИИ среди тёмных клавиш, светится изнутри" width="1600" height="900" loading="lazy" decoding="async">
+            <div class="ai-chips" aria-hidden="true">
+              <span class="ai-chip ai-chip--1">Сократить</span>
+              <span class="ai-chip ai-chip--2">Переписать</span>
+              <span class="ai-chip ai-chip--3">Перевести</span>
+              <span class="ai-chip ai-chip--4">Объяснить</span>
+            </div>
+          </div>
+          <figcaption>
+            <strong>Отдельная клавиша ИИ</strong>
+            <span>Вызывает команды ИИ, не отрывая рук от клавиатуры.</span>
+          </figcaption>
+        </figure>
+
+<figure class="detail-card span-5">
+          <div class="detail-visual">
+            <img src="img/3.jpg" alt="Фрезерованный угол алюминиевого корпуса клавиатуры с тонкой фаской" width="1024" height="768" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <strong>Фрезерованный алюминий</strong>
+            <span>Тяжёлый жёсткий корпус без люфтов.</span>
+          </figcaption>
+        </figure>
+
+<figure class="detail-card span-5">
+          <div class="detail-visual">
+            <img src="img/4.jpg" alt="Плата клавиатуры с горячей заменой: один свитч вынут из гнезда, рядом пинцет" width="1024" height="768" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <strong>Свитчи с горячей заменой</strong>
+            <span>Меняйте свитчи без пайки.</span>
+          </figcaption>
+        </figure>
+
+<figure class="detail-card span-7">
+          <div class="detail-visual">
+            <img src="img/5.jpg" alt="Матовые колпачки из PBT с мелкозернистой фактурой крупным планом" width="1536" height="864" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <strong>PBT-колпачки</strong>
+            <span>Матовый пластик, который не блестит со временем.</span>
+          </figcaption>
+        </figure>
+
+<figure class="detail-card span-6">
+          <div class="detail-visual">
+            <img src="img/6.jpg" alt="Кабель в оплётке подключён к разъёму USB-C на задней грани корпуса" width="1536" height="864" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <strong>Разъём USB-C</strong>
+            <span>Проводное подключение и зарядка одним кабелем.</span>
+          </figcaption>
+        </figure>
+
+<figure class="detail-card span-6">
+          <div class="detail-visual">
+            <img src="img/7.jpg" alt="Клавиатура без проводов на столе рядом с ноутбуком, планшетом и телефоном" width="1536" height="864" loading="lazy" decoding="async">
+          </div>
+          <figcaption>
+            <strong>Беспроводная связь с низкой задержкой</strong>
+            <span>Чистый стол и стабильное соединение без проводов.</span>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SPECIFICATIONS ============ -->
+  <section class="section specs" id="specs">
+    <div class="container specs-layout">
+      <div class="section-head">
+        <h2>Создана для ежедневной работы.</h2>
+        <p class="specs-note">Все характеристики являются частью вымышленной концепции продукта.</p>
+      </div>
+
+      <dl class="spec-list">
+        <div class="spec-row"><dt>Клавиши</dt><dd data-count="84">84</dd></div>
+        <div class="spec-row"><dt>Корпус</dt><dd>Фрезерованный алюминий</dd></div>
+        <div class="spec-row"><dt>Частота опроса</dt><dd data-count="1000">1000 Гц</dd></div>
+        <div class="spec-row"><dt>Контроллер</dt><dd>32-бит</dd></div>
+        <div class="spec-row"><dt>Подключение</dt><dd>Беспроводное / проводное</dd></div>
+        <div class="spec-row"><dt>Свитчи</dt><dd>Горячая замена</dd></div>
+        <div class="spec-row"><dt>Ролловер</dt><dd>N-key rollover</dd></div>
+        <div class="spec-row"><dt>Прошивка</dt><dd>Кастомная</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ DESK SECTION ============ -->
+  <section class="section desk">
+    <div class="container">
+      <div class="section-head">
+        <h2>Ваш стол. Ваш рабочий процесс.</h2>
+      </div>
+
+      <div class="desk-scene">
+        <img src="img/8.jpg" alt="Тёмное рабочее место: компактная механическая клавиатура на войлочном коврике перед монитором, рядом блокнот и кружка" width="1536" height="864" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT MODELS ============ -->
+  <section class="section models">
+    <div class="container">
+      <div class="section-head">
+        <h2>Линейка NEXUS.</h2>
+      </div>
+
+      <div class="model-list">
+        <article class="model-item">
+          <div class="model-visual" aria-hidden="true">
+            <div class="keyboard-wrap">
+              <div class="kb-body kb-case-graphite">
+                <div class="kb-plate"><div class="kb-rows" data-layout="65" data-legends="none" data-caps="dark"></div></div>
+              </div>
+            </div>
+          </div>
+          <h3>NEXUS 65</h3>
+          <p>68 клавиш. Компактная: без функционального ряда, больше места для мыши.</p>
+        </article>
+        <article class="model-item">
+          <div class="model-visual" aria-hidden="true">
+            <div class="keyboard-wrap">
+              <div class="kb-body kb-case-silver">
+                <div class="kb-plate"><div class="kb-rows" data-layout="75" data-legends="none" data-caps="light"></div></div>
+              </div>
+            </div>
+          </div>
+          <h3>NEXUS 75</h3>
+          <p>84 клавиши. Сбалансированная: функциональный ряд и стрелки на месте.</p>
+        </article>
+        <article class="model-item">
+          <div class="model-visual" aria-hidden="true">
+            <div class="keyboard-wrap">
+              <div class="kb-body kb-case-studio">
+                <div class="kb-plate"><div class="kb-rows" data-layout="studio" data-legends="none" data-caps="duo"></div></div>
+              </div>
+            </div>
+          </div>
+          <h3>NEXUS Studio</h3>
+          <p>84 клавиши, поворотный регулятор и двухцветные колпачки. Создана для творческих задач.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICE ============ -->
+  <section class="section price">
+    <div class="container">
+      <div class="price-band">
+        <div class="price-copy">
+          <h2>NEXUS 75</h2>
+          <p class="price-note">Вымышленная концепция продукта</p>
+        </div>
+        <div class="price-buy">
+          <p class="price-amount">от $299</p>
+          <div class="price-actions">
+            <a href="#customize" class="btn btn-primary">Настроить NEXUS</a>
+            <a href="#specs" class="btn btn-ghost">Смотреть характеристики</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section faq" id="faq">
+    <div class="container faq-layout">
+      <div class="section-head">
+        <h2>Частые вопросы.</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" name="faq">
+          <summary>Как работает клавиша ИИ?</summary>
+          <p>Выделите текст или код, нажмите клавишу и выберите команду: сократить, переписать, перевести, объяснить или сгенерировать. Руки остаются на клавиатуре.</p>
+        </details>
+        <details class="faq-item" name="faq">
+          <summary>Можно ли поменять свитчи?</summary>
+          <p>Да. Свитчи с горячей заменой вынимаются и вставляются без пайки, поэтому линейные, тактильные и кликовые можно пробовать на одной плате.</p>
+        </details>
+        <details class="faq-item" name="faq">
+          <summary>Можно ли настроить раскладку?</summary>
+          <p>Да. Клавиши и слои настраиваются под ваши задачи, а кастомная прошивка хранит сочетания и макросы на самой клавиатуре.</p>
+        </details>
+        <details class="faq-item" name="faq">
+          <summary>Как подключить несколько устройств?</summary>
+          <p>Закрепите до трёх устройств и переключайтесь между ними сочетанием Fn и цифры. Проводной режим работает по USB-C.</p>
+        </details>
+        <details class="faq-item" name="faq">
+          <summary>NEXUS — это реальный продукт?</summary>
+          <p>Нет. NEXUS — вымышленная концепция, поэтому заказать клавиатуру нельзя. Все характеристики и цена придуманы для демонстрации.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="section final-cta" id="chat-cta">
+    <div class="container final-cta-inner">
+      <h2>Создана под ваш образ мышления.</h2>
+      <p>Механическая точность. Интеллектуальное взаимодействие. Единое рабочее пространство.</p>
+      <div class="final-cta-actions">
+        <button type="button" class="btn btn-ai btn-lg" data-open-chat aria-haspopup="dialog" aria-controls="aiChat">
+          <span class="btn-ai-icon" aria-hidden="true"></span>Открыть чат с ИИ
+        </button>
+        <a href="#top" class="btn btn-ghost btn-lg">Изучить NEXUS</a>
+      </div>
+      <p class="final-cta-note">Здесь отвечает настоящий ИИ.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><svg class="logo-mark" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="1.5" y="1.5" width="21" height="21" rx="6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7" y="7" width="10" height="10" rx="3" fill="#9b7bff"/></svg><span>NEXUS</span></div>
+
+    <nav class="footer-nav" aria-label="Нижняя навигация">
+      <a href="#product">Продукт</a>
+      <a href="#features">Функции</a>
+      <a href="#ai">ИИ</a>
+      <a href="#customize">Настройка</a>
+      <a href="#specs">Характеристики</a>
+      <a href="#top">Наверх</a>
+    </nav>
+
+    <p class="footer-legal">© 2026 NEXUS — вымышленная концепция продукта</p>
+  </div>
+</footer>
+
+<!-- ============ AI CHAT ============ -->
+<div class="ai-chat" id="aiChat" role="dialog" aria-modal="true" aria-labelledby="aiChatTitle" hidden>
+  <div class="ai-chat-backdrop" data-close-chat></div>
+
+  <div class="ai-chat-window" tabindex="-1">
+    <div class="ai-chat-head">
+      <span class="ai-dot" aria-hidden="true"></span>
+      <div class="ai-chat-heading">
+        <h2 id="aiChatTitle">NEXUS AI</h2>
+        <p>Настоящий ИИ</p>
+      </div>
+      <button type="button" class="ai-chat-close" data-close-chat aria-label="Закрыть чат">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12"/></svg>
+      </button>
+    </div>
+
+    <div class="ai-chat-log" id="aiChatLog" role="log" aria-live="polite" aria-label="Переписка с NEXUS AI" tabindex="0"></div>
+
+    <div class="ai-chat-suggest" role="group" aria-label="Быстрые команды">
+      <button type="button" class="chat-chip" data-prompt="Сократить этот текст">Сократить</button>
+      <button type="button" class="chat-chip" data-prompt="Переписать этот абзац">Переписать</button>
+      <button type="button" class="chat-chip" data-prompt="Перевести на английский">Перевести</button>
+      <button type="button" class="chat-chip" data-prompt="Объяснить эту функцию">Объяснить</button>
+      <button type="button" class="chat-chip" data-prompt="Сгенерировать план проекта">Сгенерировать</button>
+    </div>
+
+    <form class="ai-chat-form" id="aiChatForm" autocomplete="off">
+      <label class="visually-hidden" for="aiChatInput">Сообщение для NEXUS AI</label>
+      <input type="text" id="aiChatInput" placeholder="Напишите сообщение" maxlength="500" enterkeyhint="send">
+      <button type="submit" class="ai-chat-send" aria-label="Отправить">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14.5V3.5M4 8l5-5 5 5"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+
+<script src="KeyboardAI.js" defer></script>
+</body>
+</html>
